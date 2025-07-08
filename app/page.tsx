@@ -12,10 +12,10 @@ export default function Home() {
         <ProductCard />
         <ProductCard />
         <ProductCard />
-             <ProductCard />
         <ProductCard />
         <ProductCard />
-             <ProductCard />
+        <ProductCard />
+        <ProductCard />
         <ProductCard />
         <ProductCard />
       </div>
