@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react'
 import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
 import { IoMailOutline } from "react-icons/io5";
@@ -22,11 +23,12 @@ const FooterSocialButton = (props: FooterSocialButtonProps) => {
   };
 
   return (
-    <div
-      className='bg-primary rounded-full p-2'
+    <Link
+      href={'/'}
+      className='bg-primary rounded-full p-2 hover:scale-120 transition-all duration-150'
     >
      {getIcon()}
-    </div>
+    </Link>
   )
 }
 
