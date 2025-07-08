@@ -3,7 +3,7 @@ import SearchBar from "@/components/SearchBar";
 
 export default function Home() {
   return (
-    <div className="p-12">
+    <div>
       <SearchBar />
       <br />
       <br />

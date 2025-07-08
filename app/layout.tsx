@@ -24,7 +24,9 @@ export default function RootLayout({
         className={`${lexendFont.className} antialiased`}
       >
         <Header />
-        {children}
+          <div className="p-12">
+            {children}
+          </div>
         <Footer />
       </body>
     </html>
