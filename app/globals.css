@@ -4,3 +4,7 @@
   --color-primary: oklch(0.4149 0.133 38.69);
   --color-secondary: oklch(0.9669 0.0162 17.44)
 }
+
+button:hover{
+  cursor: pointer;
+}
