@@ -3,6 +3,7 @@ import React from 'react'
 import testImage from '@/public/images/products/black-coffee.png'
 import ProductCardButton from './ProductCardButton'
 import { ProductProp } from '@/types/product.type'
+import { formatPrice } from '@/helpers/textFormatter'
 
 type ProductCardProp = {
   product: ProductProp
@@ -26,7 +27,7 @@ const ProductCard = ({ product }: ProductCardProp) => {
         <p className='text-white text-lg'>{product.desc ?? '-'}</p>
 
         <div className='flex justify-between items-center'>
-          <p className='text-white text-2xl'>{product.price}</p>
+          <p className='text-white text-2xl'>Rp {formatPrice(product.price)}</p>
           <ProductCardButton />
         </div>
       </div>
