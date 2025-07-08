@@ -3,7 +3,7 @@ import SearchBar from "@/components/SearchBar";
 import { ProductProp } from "@/types/product.type";
 
 async function fetchProducts() {
-  const res = await fetch('http://localhost:4000/product', {
+  const res = await fetch(`${process.env.API_HOST}/product`, {
     cache: 'no-store'
   });
 
