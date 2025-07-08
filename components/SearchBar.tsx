@@ -3,7 +3,7 @@ import { FiSearch } from "react-icons/fi";
 
 const SearchBar = () => {
   return (
-    <div className='flex justify-center p-12 gap-x-4'>
+    <div className='flex justify-center gap-x-4'>
       <input 
         type='text' 
         placeholder='Search Foods...'
