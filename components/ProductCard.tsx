@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import testImage from '@/public/images/products/black-coffee.png'
+import noImageAvail from '@/public/images/No_image_available.svg.webp'
 import ProductCardButton from './ProductCardButton'
 import { ProductProp } from '@/types/product.type'
 import { formatPrice } from '@/helpers/textFormatter'
@@ -15,14 +15,16 @@ const ProductCard = ({ product }: ProductCardProp) => {
       <div
         className='flex-[40%]'
       >
-        <Image 
-          src={testImage}
+        <Image
+          src={product.imageUrl || noImageAvail}
           alt='Product Image'
           className='rounded-l-xl'
+          width={300}
+          height={300}
         />
       </div>
       <div className='bg-primary p-8 flex-[60%] flex flex-col justify-between rounded-r-xl'>
-        <p className='text-white text-4xl text-center'>{product.name}</p>
+        <p className='text-white text-4xl text-center'>{product.name} {product.id}</p>
 
         <p className='text-white text-lg'>{product.desc ?? '-'}</p>
 
