@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Lexend} from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import Header from "@/components/Header";
 
 const lexendFont = Lexend({
   subsets: ["latin"],
@@ -26,6 +22,7 @@ export default function RootLayout({
       <body
         className={`${lexendFont.className} antialiased`}
       >
+        <Header />
         {children}
       </body>
     </html>
