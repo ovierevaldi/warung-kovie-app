@@ -15,7 +15,9 @@ const SearchBar = ({ onValueChanged } : SearchBarProps) => {
         onChange={(e) => onValueChanged(e.target.value)}
       />
 
-      <button className='bg-primary rounded-full w-12'>
+      <button 
+        disabled
+        className='bg-primary rounded-full w-12'>
         <FiSearch className='mx-auto text-2xl text-white'/>
       </button>
     </div>

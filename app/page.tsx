@@ -5,9 +5,10 @@ import SearchBar from "@/components/SearchBar";
 import { ProductProp } from "@/types/product.type";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useDebounce } from "use-debounce";
 
-async function fetchProducts() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/product`, {
+async function fetchProducts(keyword: string = '') {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/product?search=${keyword}`, {
     cache: 'no-store'
   });
 
@@ -17,9 +18,10 @@ async function fetchProducts() {
 export default function Home() {
   const [products, setProducts] = useState<ProductProp[]>([]);
   const [currentSeachVal, setCurrentSearchVal] = useState('');
-
+  const [debounceSearch] = useDebounce(currentSeachVal, 500)
+ 
   useEffect(() => {
-    fetchProducts()
+    fetchProducts(debounceSearch)
     .then((val) => {
       setProducts(val)
     })
@@ -29,8 +31,8 @@ export default function Home() {
       else
         toast.error('Cannot Fetch Product')
     });
-    
-  }, [currentSeachVal]);
+
+  }, [debounceSearch]);
 
   return (
     <div>
