@@ -1,16 +1,19 @@
 'use client'
 
 import BigButton from '@/components/BigButton'
+import ConfirmDeleteModal from '@/components/Order/ConfirmDeleteModal'
 import DeleteOrderButton from '@/components/Order/DeleteOrderButton'
 import NamaPemesanInput from '@/components/Order/NamaPemesanInput'
 import OrderAmount from '@/components/Order/OrderAmount'
+import { useModal } from '@/context/ModalContext'
 import { useProduct } from '@/context/ProductContext'
 import { useUserOrder } from '@/context/UserOrderContext'
-import React, { useState } from 'react'
+import React from 'react'
 
 const page = () => {
-  const { listOrder, addListOrder } = useUserOrder();
+  const { listOrder, addListOrder, deleteListOrder } = useUserOrder();
   const { products } = useProduct();
+  const { setModalContent } = useModal();
 
   function getOrderName(id: number){
     return products.find(p => p.id === id)?.name
@@ -36,6 +39,10 @@ const page = () => {
       default:
         break;
     }
+  };
+
+  function deleteOrder(id: number){
+    deleteListOrder(id);
   }
 
   const renderListOrder = () => {
@@ -46,7 +53,15 @@ const page = () => {
             key={o.id}
             className='grid grid-cols-[40px_1fr_1fr_1fr] items-center gap-y-3 text-center mb-6'
           >
-            <DeleteOrderButton />
+            <DeleteOrderButton 
+              onBtnClicked={() => {
+                setModalContent(
+                   <ConfirmDeleteModal 
+                    onBtnClicked={() => {deleteOrder(o.id)}}
+                   />
+                );
+              }}
+            />
             <p className='text-2xl text-primary'>{getOrderName(o.id)}</p>
             <OrderAmount 
               position='center' 

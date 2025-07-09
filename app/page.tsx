@@ -4,9 +4,7 @@ import ProductCard from "@/components/ProductCard";
 import SearchBar from "@/components/SearchBar";
 import { useProduct } from "@/context/ProductContext";
 import { useUserOrder } from "@/context/UserOrderContext";
-import { ProductProp } from "@/types/product.type";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { useDebounce } from "use-debounce";
 
 export default function Home() {
@@ -19,6 +17,7 @@ const { products, fetchProducts} = useProduct();
   useEffect(() => {
     fetchProducts(debounceSearch)
   }, [debounceSearch]);
+
 
   return (
     <div>

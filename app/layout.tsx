@@ -6,6 +6,7 @@ import Footer from "@/components/Layout/Footer";
 import { Toaster } from "react-hot-toast";
 import { UserOrderProvider } from "@/context/UserOrderContext";
 import { ProductContextProvider } from "@/context/ProductContext";
+import { ModalProvider } from "@/context/ModalContext";
 
 const lexendFont = Lexend({
   subsets: ["latin"],
@@ -21,24 +22,25 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en">
       <body
         className={`${lexendFont.className} antialiased`}
       >
         <Toaster />
-        
-        <ProductContextProvider>
-          <UserOrderProvider>
-            <Header />
-            <div className="p-12">
-                {children}
-            
-            </div>
-          </UserOrderProvider>
-        </ProductContextProvider>
-
-        <Footer />
+        <ModalProvider>
+          <ProductContextProvider>
+            <UserOrderProvider>
+              <Header />
+              <div className="p-12">
+                  {children}
+              
+              </div>
+            </UserOrderProvider>
+          </ProductContextProvider>
+          <Footer />
+        </ModalProvider>
       </body>
     </html>
   );
