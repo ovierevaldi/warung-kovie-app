@@ -1,32 +1,40 @@
+'use client'
+
 import ProductCard from "@/components/ProductCard";
 import SearchBar from "@/components/SearchBar";
 import { ProductProp } from "@/types/product.type";
+import { useEffect, useState } from "react";
 
 async function fetchProducts() {
-  const res = await fetch(`${process.env.API_HOST}/product`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/product`, {
     cache: 'no-store'
   });
 
   return res.json();
 }
 
-export default async function Home() {
-  const products: ProductProp[] = await fetchProducts();
+export default function Home() {
+  const [products, setProducts] = useState<ProductProp[]>([]);
+  const [currentSeachVal, setCurrentSearchVal] = useState('');
 
-  const getProducts = () => {
-    return(
-      products.map(p => <ProductCard key={p.id} product={p}/>)
-    )
-  }
+  useEffect(() => {
+    fetchProducts()
+    .then((val) => {
+      setProducts(val)
+    })
+    .catch((err) => console.log(err))
+  }, [currentSeachVal]);
 
   return (
     <div>
-      <SearchBar />
+      <SearchBar 
+        onValueChanged={(val) => setCurrentSearchVal(val)}
+      />
       <br />
       <br />
       <div className="grid grid-cols-2 max-h-[1000px] gap-10 overflow-auto mx-auto max-w-[1600px] p-3">
         {
-          getProducts()
+          products.map(p => <ProductCard key={p.id} product={p}/>)
         }
       </div>
     </div>
