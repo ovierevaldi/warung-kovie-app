@@ -3,7 +3,7 @@ import { FaPlus, FaMinus } from "react-icons/fa6";
 
 type OrderAmountButtonProps = {
   type: '+' | '-';
-  onBtnClicked: () => void
+  onBtnClicked: () => void;
 }
 
 const OrderAmountButton = (props: OrderAmountButtonProps) => {

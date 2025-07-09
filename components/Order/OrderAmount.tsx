@@ -3,24 +3,31 @@
 import React, { useState } from 'react'
 import OrderAmountButton from './OrderAmountButton';
 import { formatTextOrderAmount } from '@/helpers/textFormatter';
+import { useUserOrder } from '@/context/UserOrderContext';
 
 type Position = 'start' | 'center' | 'end';
 
 interface OrderAmountProps {
   position?: Position;
-  amount: number
+  amount: number;
+  onMinusBtnClicked: () => void;
+  onPlusBtnClicked: () => void;
 }
 
-const OrderAmount = ({ position = 'center', amount }: OrderAmountProps) => {
-  const [currentAmount, setCurrentAmount] = useState(0);
+const MAX_ITEM = 10
+const MIN_ITEM = 1
 
-  function operateAmount(type: '+' | '-') {
+const OrderAmount = ({ position = 'center', amount, onMinusBtnClicked, onPlusBtnClicked }: OrderAmountProps) => {
+
+  function onButtonClicked(type: '+' | '-'){
     switch (type) {
       case '+':
-        if (currentAmount < 99) setCurrentAmount((prev) => prev + 1);
+        if (amount < MAX_ITEM) 
+          onPlusBtnClicked();
         break;
       case '-':
-        if (currentAmount > 0) setCurrentAmount((prev) => prev - 1);
+        if (amount > MIN_ITEM) 
+          onMinusBtnClicked();
         break;
       default:
         break;
@@ -38,14 +45,14 @@ const OrderAmount = ({ position = 'center', amount }: OrderAmountProps) => {
     <div className={`flex gap-x-3 text-xl items-center ${justifyClass}`}>
       <OrderAmountButton
         type='-'
-        onBtnClicked={() => operateAmount('-')}
+        onBtnClicked={() => onButtonClicked('-')}
       />
       <p className='text-primary text-2xl'>
         {formatTextOrderAmount(amount)}
       </p>
       <OrderAmountButton
         type='+'
-        onBtnClicked={() => operateAmount('+')}
+        onBtnClicked={() => onButtonClicked('+')}
       />
     </div>
   );

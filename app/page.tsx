@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import { useDebounce } from "use-debounce";
 
 export default function Home() {
-  const { updateListOrder } = useUserOrder();
+  const { addListOrder } = useUserOrder();
 const { products, fetchProducts} = useProduct();
   
   const [currentSeachVal, setCurrentSearchVal] = useState('');
@@ -33,7 +33,7 @@ const { products, fetchProducts} = useProduct();
             <ProductCard 
               key={p.id} 
               product={p}
-              onProductSelected={(id) => updateListOrder({ id: id, amount: 1})}
+              onProductSelected={(id) => addListOrder({ id: id, amount: 1})}
             />
           )
         }

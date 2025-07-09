@@ -1,6 +1,7 @@
 'use client'
 
 import BigButton from '@/components/BigButton'
+import DeleteOrderButton from '@/components/Order/DeleteOrderButton'
 import NamaPemesanInput from '@/components/Order/NamaPemesanInput'
 import OrderAmount from '@/components/Order/OrderAmount'
 import { useProduct } from '@/context/ProductContext'
@@ -8,7 +9,7 @@ import { useUserOrder } from '@/context/UserOrderContext'
 import React, { useState } from 'react'
 
 const page = () => {
-  const { listOrder } = useUserOrder();
+  const { listOrder, addListOrder } = useUserOrder();
   const { products } = useProduct();
 
   function getOrderName(id: number){
@@ -23,6 +24,18 @@ const page = () => {
 
   function getTotalHarga(){
     return listOrder.reduce((sum, o) => sum + getOrderPrice(o.id, o.amount), 0)
+  };
+
+  function updateOrder(id: number, type: '+' | '-'){
+    switch (type) {
+      case '+':
+        addListOrder({ id: id, amount: 1 })
+        break;
+      case '-':
+        addListOrder( { id: id, amount: -1})
+      default:
+        break;
+    }
   }
 
   const renderListOrder = () => {
@@ -31,10 +44,16 @@ const page = () => {
         (
           <div 
             key={o.id}
-            className='grid grid-cols-3 items-center gap-y-3 text-center mb-6'
+            className='grid grid-cols-[40px_1fr_1fr_1fr] items-center gap-y-3 text-center mb-6'
           >
+            <DeleteOrderButton />
             <p className='text-2xl text-primary'>{getOrderName(o.id)}</p>
-            <OrderAmount position='center' amount={o.amount}/>
+            <OrderAmount 
+              position='center' 
+              amount={o.amount}
+              onMinusBtnClicked={() => updateOrder(o.id, '-')}
+              onPlusBtnClicked={() => updateOrder(o.id, '+')}
+            />
             <p className='text-2xl text-primary'>{getOrderPrice(o.id, o.amount)}</p>
           </div>
         )

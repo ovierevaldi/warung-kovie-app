@@ -9,7 +9,7 @@ type ListOrderProp = {
 
 type UserOrderContextProp = {
   listOrder: ListOrderProp[],
-  updateListOrder: (order: ListOrderProp) => void
+  addListOrder: (order: ListOrderProp) => void
 }
 
 const UserOrderContext = createContext<UserOrderContextProp | undefined>(undefined);
@@ -17,7 +17,7 @@ const UserOrderContext = createContext<UserOrderContextProp | undefined>(undefin
 export const UserOrderProvider = ({ children } : { children: ReactNode}) => {
   const [listOrder, setListOrder] = useState<ListOrderProp[]>([])
 
-  function updateListOrder(order: ListOrderProp): void {
+  function addListOrder(order: ListOrderProp): void {
     const exsistingOrder = listOrder.find(o => o.id === order.id);
 
     if(exsistingOrder){
@@ -30,7 +30,7 @@ export const UserOrderProvider = ({ children } : { children: ReactNode}) => {
 
   return (
     <UserOrderContext.Provider
-      value={{ listOrder, updateListOrder}}
+      value={{ listOrder, addListOrder}}
     >
       { children }
     </UserOrderContext.Provider>
