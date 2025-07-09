@@ -1,31 +1,60 @@
+'use client'
+
 import BigButton from '@/components/BigButton'
 import NamaPemesanInput from '@/components/Order/NamaPemesanInput'
 import OrderAmount from '@/components/Order/OrderAmount'
-import React from 'react'
+import { useProduct } from '@/context/ProductContext'
+import { useUserOrder } from '@/context/UserOrderContext'
+import React, { useState } from 'react'
 
 const page = () => {
+  const { listOrder } = useUserOrder();
+  const { products } = useProduct();
+
+  function getOrderName(id: number){
+    return products.find(p => p.id === id)?.name
+  };
+
+  function getOrderPrice(id: number, amount: number) {
+    const price = products.find(p => p.id === id)?.price || 0;
+    const totalHarga = price * amount;
+    return totalHarga;
+  };
+
+  function getTotalHarga(){
+    return listOrder.reduce((sum, o) => sum + getOrderPrice(o.id, o.amount), 0)
+  }
+
+  const renderListOrder = () => {
+    return (
+      listOrder.map((o) => 
+        (
+          <div 
+            key={o.id}
+            className='grid grid-cols-3 items-center gap-y-3 text-center mb-6'
+          >
+            <p className='text-2xl text-primary'>{getOrderName(o.id)}</p>
+            <OrderAmount position='center' amount={o.amount}/>
+            <p className='text-2xl text-primary'>{getOrderPrice(o.id, o.amount)}</p>
+          </div>
+        )
+      )
+    )
+  }
+
   return (
     <div className='space-y-12 min-h-[600px]'>
       <p className='text-3xl text-center text-primary'>List Order</p>
       
       <div>
-        <div className='grid grid-cols-3 items-center gap-y-3 text-center mb-6'>
-          <OrderAmount position='center'/>
-          <p className='text-2xl text-primary'>Price</p>
-          <p className='text-2xl text-primary'>Product Name</p>
-
-          <OrderAmount position='center' />
-          <p className='text-2xl text-primary'>Price</p>
-          <p className='text-2xl text-primary'>Product Name</p>
-        </div>
-
+        {renderListOrder()}
         <hr />
       </div>
 
       <div className='grid grid-cols-3 items-center gap-y-3 text-center'>
         <p></p>
         <p className='text-2xl text-primary font-bold'>Total</p>
-        <p className='text-2xl text-primary font-bold'>Total Amount</p>
+        <p className='text-2xl text-primary font-bold'>{getTotalHarga()}</p>
       </div>
       
       <NamaPemesanInput />

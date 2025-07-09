@@ -2,40 +2,22 @@
 
 import ProductCard from "@/components/ProductCard";
 import SearchBar from "@/components/SearchBar";
+import { useProduct } from "@/context/ProductContext";
 import { useUserOrder } from "@/context/UserOrderContext";
 import { ProductProp } from "@/types/product.type";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDebounce } from "use-debounce";
 
-async function fetchProducts(keyword: string = '') {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/product?search=${keyword}`, {
-    cache: 'no-store'
-  });
-
-  return res.json();
-}
-
 export default function Home() {
-  const { updateListOrder } = useUserOrder()
+  const { updateListOrder } = useUserOrder();
+const { products, fetchProducts} = useProduct();
   
-  const [products, setProducts] = useState<ProductProp[]>([]);
   const [currentSeachVal, setCurrentSearchVal] = useState('');
   const [debounceSearch] = useDebounce(currentSeachVal, 500);
-  
  
   useEffect(() => {
     fetchProducts(debounceSearch)
-    .then((val) => {
-      setProducts(val)
-    })
-    .catch((err) => {
-      if(err instanceof Error)
-        toast.error(err.message)
-      else
-        toast.error('Cannot Fetch Product')
-    });
-
   }, [debounceSearch]);
 
   return (

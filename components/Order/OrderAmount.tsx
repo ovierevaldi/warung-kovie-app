@@ -8,9 +8,10 @@ type Position = 'start' | 'center' | 'end';
 
 interface OrderAmountProps {
   position?: Position;
+  amount: number
 }
 
-const OrderAmount = ({ position = 'center' }: OrderAmountProps) => {
+const OrderAmount = ({ position = 'center', amount }: OrderAmountProps) => {
   const [currentAmount, setCurrentAmount] = useState(0);
 
   function operateAmount(type: '+' | '-') {
@@ -40,7 +41,7 @@ const OrderAmount = ({ position = 'center' }: OrderAmountProps) => {
         onBtnClicked={() => operateAmount('-')}
       />
       <p className='text-primary text-2xl'>
-        {formatTextOrderAmount(currentAmount)}
+        {formatTextOrderAmount(amount)}
       </p>
       <OrderAmountButton
         type='+'
