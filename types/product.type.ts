@@ -1,5 +1,5 @@
 export type ProductProp = {
-  id: string;
+  id: number;
   name: string
   desc?: string | null
   price: number

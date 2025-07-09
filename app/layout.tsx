@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
 import { Toaster } from "react-hot-toast";
+import { UserOrderProvider } from "@/context/UserOrderContext";
 
 const lexendFont = Lexend({
   subsets: ["latin"],
@@ -25,11 +26,13 @@ export default function RootLayout({
         className={`${lexendFont.className} antialiased`}
       >
         <Toaster />
-        
-        <Header />
+        <UserOrderProvider>
+          <Header />
           <div className="p-12">
-            {children}
+              {children}
+           
           </div>
+        </UserOrderProvider>
         <Footer />
       </body>
     </html>

@@ -4,12 +4,19 @@ import noImageAvail from '@/public/images/No_image_available.svg.webp'
 import ProductCardButton from './ProductCardButton'
 import { ProductProp } from '@/types/product.type'
 import { formatPrice } from '@/helpers/textFormatter'
+import toast from 'react-hot-toast'
 
 type ProductCardProp = {
-  product: ProductProp
+  product: ProductProp;
+  onProductSelected: (p: number) => void;
 }
 
-const ProductCard = ({ product }: ProductCardProp) => {
+const ProductCard = ({ product, onProductSelected }: ProductCardProp) => {
+  const onAddButtonClicked = () => {
+    toast.success(`${product.name} Added`)
+    onProductSelected(product.id);
+  }
+
   return (
     <div className='flex gap-x-1 mx-auto'>
       <div
@@ -30,7 +37,9 @@ const ProductCard = ({ product }: ProductCardProp) => {
 
         <div className='flex justify-between items-center'>
           <p className='text-white text-2xl'>Rp {formatPrice(product.price)}</p>
-          <ProductCardButton />
+          <ProductCardButton 
+            onBtnClicked={() => onAddButtonClicked()}
+          />
         </div>
       </div>
     </div>
