@@ -3,6 +3,7 @@ import { Lexend} from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
+import { Toaster } from "react-hot-toast";
 
 const lexendFont = Lexend({
   subsets: ["latin"],
@@ -23,6 +24,8 @@ export default function RootLayout({
       <body
         className={`${lexendFont.className} antialiased`}
       >
+        <Toaster />
+        
         <Header />
           <div className="p-12">
             {children}

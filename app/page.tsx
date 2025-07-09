@@ -4,6 +4,7 @@ import ProductCard from "@/components/ProductCard";
 import SearchBar from "@/components/SearchBar";
 import { ProductProp } from "@/types/product.type";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 async function fetchProducts() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/product`, {
@@ -22,7 +23,13 @@ export default function Home() {
     .then((val) => {
       setProducts(val)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      if(err instanceof Error)
+        toast.error(err.message)
+      else
+        toast.error('Cannot Fetch Product')
+    });
+    
   }, [currentSeachVal]);
 
   return (
