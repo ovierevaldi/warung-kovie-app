@@ -9,11 +9,16 @@ import { useModal } from '@/context/ModalContext'
 import { useProduct } from '@/context/ProductContext'
 import { useUserOrder } from '@/context/UserOrderContext'
 import React from 'react'
+import noOrderImage from '@/public/images/still-6cbc3b0755837126c89cbc23df300cff.jpg'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
   const { listOrder, addListOrder, deleteListOrder } = useUserOrder();
   const { products } = useProduct();
   const { setModalContent } = useModal();
+
+  const router = useRouter();
 
   function getOrderName(id: number){
     return products.find(p => p.id === id)?.name
@@ -77,26 +82,45 @@ const page = () => {
   }
 
   return (
-    <div className='space-y-12 min-h-[600px]'>
-      <p className='text-3xl text-center text-primary'>List Order</p>
-      
-      <div>
-        {renderListOrder()}
-        <hr />
-      </div>
+      listOrder.length ? 
+      <div className='space-y-12 min-h-[600px]'>
+        <p className='text-3xl text-center text-primary'>List Order</p>
+        
+        <div>
+          {renderListOrder()}
+          <hr />
+        </div>
 
-      <div className='grid grid-cols-3 items-center gap-y-3 text-center'>
-        <p></p>
-        <p className='text-2xl text-primary font-bold'>Total</p>
-        <p className='text-2xl text-primary font-bold'>{getTotalHarga()}</p>
-      </div>
-      
-      <NamaPemesanInput />
+        <div className='grid grid-cols-3 items-center gap-y-3 text-center'>
+          <p></p>
+          <p className='text-2xl text-primary font-bold'>Total</p>
+          <p className='text-2xl text-primary font-bold'>{getTotalHarga()}</p>
+        </div>
+        
+        <NamaPemesanInput />
 
-      <div className='text-center'>
-        <BigButton text='Bayar'/>
+        <div className='text-center'>
+          <BigButton text='Bayar'/>
+        </div>
       </div>
-    </div>
+      :
+      <div className='flex items-center flex-col gap-y-6'>
+        <p className='text-2xl'>Oops You Haven’t Order Anything Yet</p>
+        <Image 
+          alt='No Order Image'
+          src={noOrderImage}
+          width={150}
+        />
+        <p className='text-xl'>You Can Order your coffee here</p>
+        <button 
+          className='bg-primary text-white w-64 py-4 rounded-lg'
+          onClick={() => router.push('/')}
+        >
+          <p className='text-2xl'>
+            Menu
+          </p>
+        </button>
+      </div>
   )
 }
 
