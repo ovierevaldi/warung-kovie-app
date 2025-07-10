@@ -118,8 +118,12 @@ const page = () => {
         throw new Error(error.message || 'Failed to insert order');
     };
 
+    const data = await res.json();
+
+    console.log(data.orderId)
+
     toast.success('Success Creating Order');
-    router.push('/redirect')
+    router.push(`/redirect/${data.orderId}`)
   }
 
   return (
