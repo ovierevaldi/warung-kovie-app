@@ -10,7 +10,8 @@ type ListOrderProp = {
 type UserOrderContextProp = {
   listOrder: ListOrderProp[],
   addListOrder: (order: ListOrderProp) => void,
-  deleteListOrder: (id: number) => void
+  deleteListOrder: (id: number) => void,
+  clearOrder: () => void
 }
 
 const UserOrderContext = createContext<UserOrderContextProp | undefined>(undefined);
@@ -31,11 +32,15 @@ export const UserOrderProvider = ({ children } : { children: ReactNode}) => {
 
   function deleteListOrder(id: number): void{
     setListOrder(listOrder.filter((o) => o.id !== id))
+  };
+
+  function clearOrder(){
+    setListOrder([])
   }
 
   return (
     <UserOrderContext.Provider
-      value={{ listOrder, addListOrder, deleteListOrder}}
+      value={{ listOrder, addListOrder, deleteListOrder, clearOrder}}
     >
       { children }
     </UserOrderContext.Provider>

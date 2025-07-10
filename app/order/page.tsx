@@ -120,10 +120,8 @@ const page = () => {
 
     const data = await res.json();
 
-    console.log(data.orderId)
-
     toast.success('Success Creating Order');
-    router.push(`/redirect/${data.orderId}`)
+    router.push(`/redirect/${data.orderId}`);
   }
 
   return (

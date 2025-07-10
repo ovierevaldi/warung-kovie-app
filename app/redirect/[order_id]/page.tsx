@@ -2,6 +2,7 @@
 
 import BackButton from '@/components/Redirect/BackButton';
 import CircleNumber from '@/components/Redirect/CircleNumber';
+import { useUserOrder } from '@/context/UserOrderContext';
 import React, { useEffect, useState, use } from 'react';
 import toast from 'react-hot-toast';
 
@@ -11,6 +12,8 @@ type InfoAntrianProps = {
 };
 
 const Page = ({ params }: { params: Promise<{ order_id: string }> }) => {
+  const { clearOrder } = useUserOrder();
+
   const { order_id } = use (params);
   const [infoAntrian, setInfoAntrian] = useState<InfoAntrianProps | null>(null);
 
@@ -33,12 +36,13 @@ const Page = ({ params }: { params: Promise<{ order_id: string }> }) => {
   }
 
   useEffect(() => {
+    clearOrder();
+
     getInfoAntrian();
   }, [order_id]);
 
   return (
     <div>
-      {order_id}
       <p className='text-center text-primary text-3xl mb-4'>Order Confirmed</p>
       <p className='text-center text-2xl mb-4'>Pesanan Anda Telah dikonfirmasi oleh kasir kami</p>
 
