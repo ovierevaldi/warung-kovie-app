@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import React from 'react'
 
 type BigButtonProps = {
@@ -10,13 +9,12 @@ type BigButtonProps = {
 }
 
 const BigButton = ({ text, isDisabled = false, onBtnClicked}: BigButtonProps) => {
-  const router = useRouter();
 
   return (
     <button
       disabled={isDisabled}
       className='w-56 bg-primary text-white h-18 disabled:bg-secondary disabled:text-gray-400'
-      onClick={() => router.push('/redirect')}
+      onClick={onBtnClicked}
     >
       <span className='text-2xl'>{text}</span>
     </button>

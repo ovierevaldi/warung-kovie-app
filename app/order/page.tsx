@@ -13,6 +13,8 @@ import noOrderImage from '@/public/images/still-6cbc3b0755837126c89cbc23df300cff
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { formatOrderPrice } from '@/helpers/textFormatter'
+import { DetailPesananInputProps, OrderInputProps } from '@/types/order.type'
+import toast from 'react-hot-toast'
 
 const page = () => {
   const { listOrder, addListOrder, deleteListOrder } = useUserOrder();
@@ -86,6 +88,38 @@ const page = () => {
 
   function checkDisabledOrderButton(){
     return listOrder.length <= 0 || namaPemesan === '';
+  };
+
+  async function insertOrderApi(){
+    const listPemesanan: DetailPesananInputProps[] = listOrder.map((o) => 
+      (
+        {
+          nama_pesanan: getOrderName(o.id) ?? '',
+          harga: getOrderPrice(o.id, 1),
+          amount: o.amount
+        }
+      )
+    )
+
+    const payload: OrderInputProps = {
+      nama_pemesan: namaPemesan,
+      detail_pesanan: listPemesanan,
+      total_harga: getTotalHarga()
+    }
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/order`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if(!res.ok){
+        const error = await res.json();
+        throw new Error(error.message || 'Failed to insert order');
+    };
+
+    toast.success('Success Creating Order');
+    router.push('/redirect')
   }
 
   return (
@@ -112,7 +146,7 @@ const page = () => {
         <div className='text-center'>
           <BigButton 
             text='Pesan'
-            onBtnClicked={() => {}}
+            onBtnClicked={() => insertOrderApi()}
             isDisabled={checkDisabledOrderButton()}
           />
         </div>
