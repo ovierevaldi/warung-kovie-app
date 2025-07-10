@@ -12,6 +12,7 @@ import React from 'react'
 import noOrderImage from '@/public/images/still-6cbc3b0755837126c89cbc23df300cff.jpg'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { formatOrderPrice } from '@/helpers/textFormatter'
 
 const page = () => {
   const { listOrder, addListOrder, deleteListOrder } = useUserOrder();
@@ -74,7 +75,7 @@ const page = () => {
               onMinusBtnClicked={() => updateOrder(o.id, '-')}
               onPlusBtnClicked={() => updateOrder(o.id, '+')}
             />
-            <p className='text-2xl text-primary'>{getOrderPrice(o.id, o.amount)}</p>
+            <p className='text-2xl text-primary'>{formatOrderPrice(getOrderPrice(o.id, o.amount))}</p>
           </div>
         )
       )
@@ -91,10 +92,11 @@ const page = () => {
           <hr />
         </div>
 
-        <div className='grid grid-cols-3 items-center gap-y-3 text-center'>
+        <div className='grid grid-cols-[40px_1fr_1fr_1fr] items-center gap-y-3 text-center'>
+          <p></p>
           <p></p>
           <p className='text-2xl text-primary font-bold'>Total</p>
-          <p className='text-2xl text-primary font-bold'>{getTotalHarga()}</p>
+          <p className='text-2xl text-primary font-bold'>{formatOrderPrice(getTotalHarga())}</p>
         </div>
         
         <NamaPemesanInput />

@@ -12,4 +12,10 @@ function formatPrice(value: number){
   return value.toString();
 };
 
-export { formatTextOrderAmount, formatPrice }
+function formatOrderPrice(value: number){
+  return value.toLocaleString('id-ID', {
+    minimumFractionDigits: 2
+  })
+}
+
+export { formatTextOrderAmount, formatPrice, formatOrderPrice }
