@@ -8,7 +8,7 @@ import OrderAmount from '@/components/Order/OrderAmount'
 import { useModal } from '@/context/ModalContext'
 import { useProduct } from '@/context/ProductContext'
 import { useUserOrder } from '@/context/UserOrderContext'
-import React from 'react'
+import React, { useState } from 'react'
 import noOrderImage from '@/public/images/still-6cbc3b0755837126c89cbc23df300cff.jpg'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -20,6 +20,8 @@ const page = () => {
   const { setModalContent } = useModal();
 
   const router = useRouter();
+
+  const [namaPemesan, setNamaPemesan] = useState('');
 
   function getOrderName(id: number){
     return products.find(p => p.id === id)?.name
@@ -80,6 +82,10 @@ const page = () => {
         )
       )
     )
+  };
+
+  function checkDisabledOrderButton(){
+    return listOrder.length <= 0 || namaPemesan === '';
   }
 
   return (
@@ -99,11 +105,18 @@ const page = () => {
           <p className='text-2xl text-primary font-bold'>{formatOrderPrice(getTotalHarga())}</p>
         </div>
         
-        <NamaPemesanInput />
+        <NamaPemesanInput 
+          onValueChanged={(val) => {setNamaPemesan(val)}}
+        />
 
         <div className='text-center'>
-          <BigButton text='Bayar'/>
+          <BigButton 
+            text='Pesan'
+            onBtnClicked={() => {}}
+            isDisabled={checkDisabledOrderButton()}
+          />
         </div>
+
       </div>
       :
       <div className='flex items-center flex-col gap-y-6'>
